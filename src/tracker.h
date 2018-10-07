@@ -59,10 +59,10 @@ namespace JPDAFTracker
       void drawTracks(cv::Mat &_img) const;
     public:
       virtual void track(const Detections& _detections) { ; }
-      virtual void track(const Detections& _detections, VecBool& _isAssoc, uint& _trackID) { ; }
+      virtual void track(const Detections& _detections, VecBool& _isAssoc, unsigned int& _trackID) { ; }
       virtual inline void push_back(const Track_ptr& _track) { ; }
     public:
-      inline const uint size() const
+      inline const unsigned int size() const
       {
 	return tracks_.size();
       }
@@ -76,7 +76,7 @@ namespace JPDAFTracker
 	return tracks_;
       }
     protected:
-      uint trackID_;
+      unsigned int trackID_;
       bool init_;
       bool startTracking_;
       TrackerParam param_;
@@ -90,7 +90,7 @@ namespace JPDAFTracker
      virtual void delete_tracks() = 0;
      virtual void manage_new_tracks() { ; }
     protected:
-      constexpr static uint MAX_ASSOC = 10000;
+      static unsigned int MAX_ASSOC;
     protected:
      VecBool analyze_tracks(const cv::Mat& _q, const Detections& _detections);
      Matrices generate_hypothesis(const Vectors2f& _selected_detections, const cv::Mat& _q);

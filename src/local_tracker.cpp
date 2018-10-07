@@ -9,9 +9,9 @@ LocalTracker::LocalTracker(const TrackerParam& _param)
 }
 
 
-void LocalTracker::track(const std::vector< Detection >& _detections, VecBool& _isAssoc, uint& _trackID)
+void LocalTracker::track(const std::vector< Detection >& _detections, VecBool& _isAssoc, unsigned int& _trackID)
 {
-  uint j = 0;
+  unsigned int j = 0;
   for(auto& track : tracks_)
   {
     track->predict();
@@ -51,7 +51,7 @@ void LocalTracker::track(const std::vector< Detection >& _detections, VecBool& _
     last_beta_ = beta_.row(beta_.rows() - 1);
       
     //KALMAN PREDICT STEP
-    uint i = 0, j = 0;
+    unsigned int i = 0, j = 0;
     
     for(const auto& track : tracks_)
     {
@@ -99,9 +99,9 @@ void LocalTracker::associate(std::vector< Eigen::Vector2f >& _selected_detection
   //Extracting the measurements inside the validation gate for all the tracks
   //Create a q matrix with a width = clutter + number of tracks
   _q = cv::Mat_<int>(cv::Size(tracks_.size() + 1, _detections.size()), int(0));
-  uint validationIdx = 0;
+  unsigned int validationIdx = 0;
   not_associated_.clear();
-  uint j = 0;
+  unsigned int j = 0;
   
   auto euclideanDist = [](const Eigen::Vector2f& _p1, const Eigen::Vector2f& _p2)
 			    { 
@@ -113,7 +113,7 @@ void LocalTracker::associate(std::vector< Eigen::Vector2f >& _selected_detection
   {
     Eigen::Vector2f det;
     det << detection.x(), detection.y();
-    uint i = 1;
+    unsigned int i = 1;
     bool found = false;
     cv::Mat det_cv(cv::Size(2, 1), CV_32FC1);
     det_cv.at<float>(0) = det(0);

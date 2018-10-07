@@ -45,7 +45,7 @@ void GlobalTracker::track(const GlobalTracker::Detections& _detections)
   {
     not_associated_.clear();
     VecBool isAssoc(_detections.size(), false); //all the detections are not associated
-    uint i;
+    unsigned int i;
     for(const auto& tracker : localTrackers_)
     {
       tracker->track(_detections, isAssoc, trackID_);
@@ -91,7 +91,7 @@ void GlobalTracker::track(const GlobalTracker::Detections& _detections)
       last_beta_ = beta_.row(beta_.rows() - 1);
 	
       //KALMAN PREDICT STEP
-      uint i = 0, j = 0;
+      unsigned int i = 0, j = 0;
       
       for(const auto& track : tracks_)
       {
@@ -134,8 +134,8 @@ void GlobalTracker::delete_tracks()
 
 void GlobalTracker::manage_new_tracks()
 {
-  const uint& prevDetSize = prev_detections_.size();
-  const uint& deteSize = not_associated_.size();
+  const unsigned int& prevDetSize = prev_detections_.size();
+  const unsigned int& deteSize = not_associated_.size();
   if(prevDetSize == 0)
   {
     prev_detections_ = not_associated_;
@@ -158,9 +158,9 @@ void GlobalTracker::manage_new_tracks()
     assignments_t assignments;
     distMatrix_t costs(deteSize * prevDetSize);
 
-    for(uint i = 0; i < prevDetSize; ++i)
+    for(unsigned int i = 0; i < prevDetSize; ++i)
     {
-      for(uint j = 0; j < deteSize; ++j)
+      for(unsigned int j = 0; j < deteSize; ++j)
       {
 	costs.at(i + j * prevDetSize ) = euclideanDist(not_associated_.at(j), prev_detections_.at(i));
 	costMat.at<float>(i, j) = costs.at(i + j * prevDetSize );
@@ -171,9 +171,9 @@ void GlobalTracker::manage_new_tracks()
     AssignmentProblemSolver APS;
     APS.Solve(costs, prevDetSize, deteSize, assignments, AssignmentProblemSolver::optimal);
 
-    const uint& assSize = assignments.size();
+    const unsigned int& assSize = assignments.size();
     
-    for(uint i = 0; i < assSize; ++i)
+    for(unsigned int i = 0; i < assSize; ++i)
     {
       if( assignments[i] != -1 && costMat.at<float>(i, assignments[i]) < param_.assocCost)
       {
@@ -181,15 +181,15 @@ void GlobalTracker::manage_new_tracks()
       }
     }
     
-    const uint& rows = assigmentsBin.rows;
-    const uint& cols = assigmentsBin.cols;
+    const unsigned int& rows = assigmentsBin.rows;
+    const unsigned int& cols = assigmentsBin.cols;
     
     LocalTracker_ptr tracker = LocalTracker_ptr(new LocalTracker(param_));
         
     
-    for(uint i = 0; i < rows; ++i)
+    for(unsigned int i = 0; i < rows; ++i)
     {
-      for(uint j = 0; j < cols; ++j)
+      for(unsigned int j = 0; j < cols; ++j)
       {
 	if(assigmentsBin.at<int>(i, j))
 	{
@@ -208,7 +208,7 @@ void GlobalTracker::manage_new_tracks()
       
     
     cv::Mat notAssignedDet(cv::Size(assigmentsBin.cols, 1), CV_32SC1, cv::Scalar(0));
-    for(uint i = 0; i < assigmentsBin.rows; ++i)
+    for(unsigned int i = 0; i < assigmentsBin.rows; ++i)
     {
       notAssignedDet += assigmentsBin.row(i);
     }
@@ -219,9 +219,9 @@ void GlobalTracker::manage_new_tracks()
     cv::Mat dets;
     cv::findNonZero(notAssignedDet, dets);
     prev_detections_.clear();
-    for(uint i = 0; i < dets.total(); ++i)
+    for(unsigned int i = 0; i < dets.total(); ++i)
     {
-      const uint& idx = dets.at<cv::Point>(i).x;
+      const unsigned int& idx = dets.at<cv::Point>(i).x;
       prev_detections_.push_back(not_associated_.at(i));
     }
   }
@@ -234,8 +234,8 @@ void GlobalTracker::associate(std::vector< Eigen::Vector2f >& _selected_detectio
   //Extracting the measurements inside the validation gate for all the tracks
   //Create a q matrix with a width = clutter + number of tracks
   _q = cv::Mat_<int>(cv::Size(tracks_.size() + 1, _detections.size()), int(0));
-  uint validationIdx = 0;
-  uint j = 0;
+  unsigned int validationIdx = 0;
+  unsigned int j = 0;
   
   auto euclideanDist = [](const Eigen::Vector2f& _p1, const Eigen::Vector2f& _p2)
 			    { 
@@ -247,7 +247,7 @@ void GlobalTracker::associate(std::vector< Eigen::Vector2f >& _selected_detectio
   {
     Eigen::Vector2f det;
     det << detection.x(), detection.y();
-    uint i = 1;
+    unsigned int i = 1;
     bool found = false;
     cv::Mat det_cv(cv::Size(2, 1), CV_32FC1);
     det_cv.at<float>(0) = det(0);

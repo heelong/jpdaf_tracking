@@ -9,7 +9,7 @@ namespace JPDAFTracker
   {
     public:
       LocalTracker(const TrackerParam& _param);
-      void track(const Detections& _detections, VecBool& _isAssoc, uint& _trackID);
+	  void track(const Detections& _detections, VecBool& _isAssoc, unsigned int& _trackID);
     public:
       inline void push_back(const Track_ptr& _track)
       {

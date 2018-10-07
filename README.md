@@ -63,5 +63,5 @@ JPDAFTracker works under Linux environments. I recommend a so-called out of sour
 
 Go to the bin diretory and launch the program with the following command:
 ```bash
-./jpdaf_tracker ../config/kalman_param.txt /path/to/the/detection_file.txt /path/to/the/image_folder 
+jpdaf_tracker.exe D:/GIT/jpdaf_tracking-master/config/params.txt D:/GIT/jpdaf_tracking-master/PETS09-S2L1/detection.txt D:/GIT/jpdaf_tracking-master/PETS09-S2L1/img1
 ```

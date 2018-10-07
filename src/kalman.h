@@ -90,7 +90,7 @@ namespace JPDAFTracker
       bool first;
       float entropy;
     private:
-      static constexpr float k = 5.0620; // n/2 * log(4*PI) where n is the state dimention (x, y, x', y')
+      static float k; // n/2 * log(4*PI) where n is the state dimention (x, y, x', y')
       //static constexpr float k = 2.1984;
   };
 }

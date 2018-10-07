@@ -35,10 +35,10 @@ std::map<int, std::vector< std::vector< std::string > > > petsReading(const std:
       }
       row.push_back(line.substr(start, end - start));
       
-      const uint& n = atoi(row[1].c_str());
+      const unsigned int& n = atoi(row[1].c_str());
       std::vector< std::vector<std::string> > detections;
-      uint j = 2;
-      for(uint i = 0; i < n; ++i)
+      unsigned int j = 2;
+      for(unsigned int i = 0; i < n; ++i)
       {
 	std::vector<std::string> currDetections;
 	try
@@ -96,10 +96,10 @@ cv::Mat mosaic(const cv::Mat& img1, const cv::Mat& img2)
 int main(int argc, char** argv)
 {
   TrackerParam params;
-  params.read(std::string(argv[1]));
-  std::map<int, std::vector< std::vector< std::string > > > detections = petsReading(argv[2]);
+  params.read(std::string("D:/Github/jpdaf_tracking/config/params.txt"));
+  std::map<int, std::vector< std::vector< std::string > > > detections = petsReading("D:/Github/jpdaf_tracking/PETS09-S2L1/detection.txt");
   cv::Mat planView = cv::imread("PlanView.png");
-  ImageManager img(argv[3]);
+  ImageManager img("D:/Github/jpdaf_tracking/PETS09-S2L1/img1");
   std::shared_ptr<Tracker> tracker(new GlobalTracker(params));
   std::vector< std::vector < std::string > > curr;
   std::vector<Detection> dets;
@@ -117,7 +117,7 @@ cv::VideoWriter output_cap("output.avi",
 		7,
                cv::Size(1536, 576));
   
-  for(uint i = 0; i < detections.size(); ++i)
+  for(unsigned int i = 0; i < detections.size(); ++i)
   {
     
     rects.clear();

@@ -2,6 +2,8 @@
 
 using namespace JPDAFTracker;
 
+float Kalman::k = 5.0620;
+
 Kalman::Kalman(const float& dt, const cv::Point2f& target_delta, const float& x, const float& y, const float& vx, const float& vy, const Eigen::Matrix2f& _R)
 {
   //TRANSITION MATRIX
@@ -85,7 +87,7 @@ Eigen::Vector4f Kalman::update(const std::vector< Eigen::Vector2f >& selected_de
   a.setZero();
 
   x_filter.setZero();
-  uint i = 0;
+  unsigned int i = 0;
   
   for(const auto& det : selected_detections)
   {
